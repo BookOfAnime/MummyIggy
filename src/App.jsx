@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
 import './App.css';
+import Navbar from './Navbar';
 
 function App() {
   const [page, setPage] = useState('home');
   const chasingImageRef = useRef(null);
+  const audioRef = useRef(null);
 
   useEffect(() => {
     const chasingImage = chasingImageRef.current;
+    const audio = audioRef.current;
 
     if (chasingImage) {
       gsap.to(chasingImage, {
@@ -34,14 +37,17 @@ function App() {
         },
       });
     }
+
+    if (audio) {
+      audio.volume = 0.2; // Set volume to 20%
+    }
   }, [page]);
 
-  const handleHomeClick = () => {
-    setPage('second');
-  };
-
-  const handleSecondClick = () => {
-    setPage('home');
+  const handleButtonClick = () => {
+    setPage(page === 'home' ? 'second' : 'home');
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
   };
 
   const renderStarvingImages = () => {
@@ -64,23 +70,40 @@ function App() {
 
   return (
     <div className="App">
+      <Navbar />
+      <h1 className='m'>Mummy Iggy</h1>
+      <audio ref={audioRef} src="./fancy.mp3" />
       {page === 'home' ? (
         <div className="full-screen">
-          <img src="./i.png" alt="Background Left" className="background-image" />
-          <img src="./igg.png" alt="First Page" className="main-image" />
-          <img src="./i.png" alt="Background Right" className="background-image" />
+          <div className="main-content">
+            <img src="./i.png" alt="Background Left" className="background-image" style={{ width: "50%", height: "100%" }} />
+            <img src="./igg.png" alt="First Page" className="main-image" />
+            <img src="./i.png" alt="Background Right" className="background-image" style={{ width: "50%", height: "100%" }} />
+          </div>
           {renderStarvingImages()}
           <img ref={chasingImageRef} src="./i.png" alt="Chasing" className="chasing-image" />
-          <button className="navigate-button" onClick={handleHomeClick}>Naughty</button>
+          <button 
+            className="navigate-button" 
+            style={{ top: '70%' }} 
+            onClick={handleButtonClick}>
+              Naughty
+          </button>
         </div>
       ) : (
         <div className="full-screen">
-          <img src="./i.png" alt="Background Left" className="background-image" />
-          <img src="./back.png" alt="Second Page" className="main-image" />
-          <img src="./i.png" alt="Background Right" className="background-image" />
+          <div className="main-content">
+            <img src="./i.png" alt="Background Left" className="background-image" style={{ width: "50%", height: "100%" }} />
+            <img src="./back.png" alt="Second Page" className="main-image" />
+            <img src="./i.png" alt="Background Right" className="background-image" style={{ width: "50%", height: "100%" }} />
+          </div>
           {renderStarvingImages()}
           <img ref={chasingImageRef} src="./i.png" alt="Chasing" className="chasing-image" />
-          <button className="navigate-button" onClick={handleSecondClick}>Don't touch</button>
+          <button 
+            className="navigate-button" 
+            style={{ top: '50%' }} 
+            onClick={handleButtonClick}>
+              Don't touch
+          </button>
         </div>
       )}
     </div>
