@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'EnFont';
-  src: url('./en.ttf') format('truetype');
+  src: url('./assets/en.ttf') format('truetype');
 }
 
 body {
@@ -88,7 +88,7 @@ h1 {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: url('./sphinx.jpeg') no-repeat center;
+  background: url('./assets/sphinx.jpeg') no-repeat center;
   background-size: cover;
 }
 
